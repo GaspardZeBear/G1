@@ -21,4 +21,7 @@ vars.put(myVarName,myVar + padding)
 def start=SampleResult.getStartTime()
 def end = System.currentTimeMillis(); //return current time in milliseconds
 def latency=end - start
-log.info(date.toString()  + " " + Thread.currentThread().getName() + " count=" + counterVar + " latency=" + latency  )
+
+def out=date.toString()  + " " + Thread.currentThread().getName() + " count=" + counterVar + " latency=" + latency 
+log.info(out)
+OUT.println(out)
