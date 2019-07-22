@@ -30,32 +30,30 @@
           <stringProp name="filename"></stringProp>
           <stringProp name="parameters">9999</stringProp>
           <stringProp name="script">import static java.util.Calendar.*
-def _SRC=&quot;Setup thread group - PreProcessor&quot;
+def _SRC=&quot;Setup thread group&quot;
+_SRC += ctx.getThread().getThreadName() + &quot; &lt;&quot; + sampler.getName() + &quot;&gt;&quot;
 def d=new Date()
 println(d.toString() + &quot;---------------------------------------------------------------------------------------&quot;)
 println(&quot;Setup thread group - PreProcessor&quot;) 
  
-public class T {
+public class Tracer {
      def log
-	void init(log) {
-		this.log=log
-		println(&quot;T tracer init&quot;)
-	}
-	void msg(src, msg) {
+
+     Tracer(log) {
+     	this.log=log
+     }
+
+	void msg(ctx,sampler, msg) {
 		//OUT.println(&quot;Track&quot;)
+		def sign = ctx.getThread().getThreadName() + &quot; &lt;&quot; + sampler.getName() + &quot;&gt;&quot;
 		def d = new Date()
-		def dmsg = d.toString() + &quot; &lt;&quot; + src + &quot;&gt; &quot; + msg
+		def dmsg = d.toString() + &quot; &lt;&quot; + sign + &quot;&gt; &quot; + msg
 		this.log.info(dmsg)
 		println(dmsg)
-	}	
+	}
 }
 
-t=new T()
-t.init(log)
-//(new T(log)).p()
-
-props.put(&quot;TRACER&quot;,t)
-//T(log).p()
+props.put(&quot;TRACER&quot;,new Tracer(log))
 println(d.toString() + &quot;*************************************************************&quot;)
 props.get(&quot;TRACER&quot;).msg(_SRC,&quot;Checking TRACER is OK&quot;)</stringProp>
           <stringProp name="scriptLanguage">groovy</stringProp>
@@ -66,9 +64,7 @@ props.get(&quot;TRACER&quot;).msg(_SRC,&quot;Checking TRACER is OK&quot;)</strin
           <stringProp name="parameters"></stringProp>
           <stringProp name="filename"></stringProp>
           <stringProp name="cacheKey">true</stringProp>
-          <stringProp name="script">def _SRC=&quot;setUp Thread Group Sampler&quot;
-def msg=&quot;Sampler in Setup&quot;
-props.get(&quot;TRACER&quot;).msg(_SRC,msg)</stringProp>
+          <stringProp name="script">props.get(&quot;TRACER&quot;).msg(ctx,sampler,&quot;Running&quot;)</stringProp>
         </JSR223Sampler>
         <hashTree/>
       </hashTree>
@@ -76,7 +72,7 @@ props.get(&quot;TRACER&quot;).msg(_SRC,msg)</stringProp>
         <stringProp name="ThreadGroup.on_sample_error">stoptest</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <stringProp name="LoopController.loops">3</stringProp>
+          <stringProp name="LoopController.loops">2</stringProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">2</stringProp>
         <stringProp name="ThreadGroup.ramp_time">1</stringProp>
@@ -89,8 +85,7 @@ props.get(&quot;TRACER&quot;).msg(_SRC,msg)</stringProp>
           <stringProp name="cacheKey">false</stringProp>
           <stringProp name="filename"></stringProp>
           <stringProp name="parameters">9999</stringProp>
-          <stringProp name="script">def _SRC=&quot;Thread Group 1 PreProcessor 1.1&quot;
-props.get(&quot;TRACER&quot;).msg(_SRC,&quot;Preprocessor 1.1  in ThreadGroup 1&quot;)</stringProp>
+          <stringProp name="script">props.get(&quot;TRACER&quot;).msg(ctx,sampler,&quot;Running&quot;)</stringProp>
           <stringProp name="scriptLanguage">groovy</stringProp>
         </JSR223PreProcessor>
         <hashTree/>
@@ -99,8 +94,7 @@ props.get(&quot;TRACER&quot;).msg(_SRC,&quot;Preprocessor 1.1  in ThreadGroup 1&
           <stringProp name="parameters"></stringProp>
           <stringProp name="filename"></stringProp>
           <stringProp name="cacheKey">true</stringProp>
-          <stringProp name="script">def _SRC=&quot;Thread Group 1 Sampler 1.1&quot;
-props.get(&quot;TRACER&quot;).msg(_SRC,&quot;Sampler1 in TG 1&quot;)</stringProp>
+          <stringProp name="script">props.get(&quot;TRACER&quot;).msg(ctx,sampler,&quot;Running&quot;)</stringProp>
         </JSR223Sampler>
         <hashTree/>
       </hashTree>
@@ -108,7 +102,7 @@ props.get(&quot;TRACER&quot;).msg(_SRC,&quot;Sampler1 in TG 1&quot;)</stringProp
         <stringProp name="ThreadGroup.on_sample_error">stoptest</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <stringProp name="LoopController.loops">3</stringProp>
+          <stringProp name="LoopController.loops">2</stringProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">2</stringProp>
         <stringProp name="ThreadGroup.ramp_time"></stringProp>
@@ -123,8 +117,7 @@ props.get(&quot;TRACER&quot;).msg(_SRC,&quot;Sampler1 in TG 1&quot;)</stringProp
             <stringProp name="cacheKey">false</stringProp>
             <stringProp name="filename"></stringProp>
             <stringProp name="parameters">9999</stringProp>
-            <stringProp name="script">def _SRC=&quot;Thread Group 2 OnceOnlyController PreprocessorOnceOnly 2.1&quot;
-props.get(&quot;TRACER&quot;).msg(_SRC,&quot;Running&quot;)</stringProp>
+            <stringProp name="script">props.get(&quot;TRACER&quot;).msg(ctx,sampler,&quot;Running&quot;)</stringProp>
             <stringProp name="scriptLanguage">groovy</stringProp>
           </JSR223PreProcessor>
           <hashTree/>
@@ -133,8 +126,7 @@ props.get(&quot;TRACER&quot;).msg(_SRC,&quot;Running&quot;)</stringProp>
             <stringProp name="parameters"></stringProp>
             <stringProp name="filename"></stringProp>
             <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script">def _SRC=&quot;Thread Group 2 OnceOnlyController Sampler 2.1&quot;
-props.get(&quot;TRACER&quot;).msg(_SRC,&quot;Running&quot;)</stringProp>
+            <stringProp name="script">props.get(&quot;TRACER&quot;).msg(ctx,sampler,&quot;Running&quot;)</stringProp>
           </JSR223Sampler>
           <hashTree/>
         </hashTree>
@@ -179,8 +171,7 @@ props.get(&quot;TRACER&quot;).msg(_SRC,&quot;Running&quot;)</stringProp>
           <stringProp name="cacheKey">false</stringProp>
           <stringProp name="filename"></stringProp>
           <stringProp name="parameters">9999</stringProp>
-          <stringProp name="script">def _SRC=&quot;Thread Group 2 OnceOnlyController 2 Preprocessor 2.1&quot;
-props.get(&quot;TRACER&quot;).msg(_SRC,&quot;TG2 Preprocessor 2.1&quot;)</stringProp>
+          <stringProp name="script">props.get(&quot;TRACER&quot;).msg(ctx,sampler,&quot;Running&quot;)</stringProp>
           <stringProp name="scriptLanguage">groovy</stringProp>
         </JSR223PreProcessor>
         <hashTree/>
@@ -188,8 +179,7 @@ props.get(&quot;TRACER&quot;).msg(_SRC,&quot;TG2 Preprocessor 2.1&quot;)</string
           <stringProp name="cacheKey">true</stringProp>
           <stringProp name="filename"></stringProp>
           <stringProp name="parameters"></stringProp>
-          <stringProp name="script">def _SRC=&quot;Thread Group 2 Sample PADDER 2.1&quot;
-props.get(&quot;TRACER&quot;).msg(_SRC,&quot;Sample Padder 2.1 Running&quot;)</stringProp>
+          <stringProp name="script">props.get(&quot;TRACER&quot;).msg(ctx,sampler,&quot;Running&quot;)</stringProp>
           <stringProp name="scriptLanguage">groovy</stringProp>
         </JSR223Sampler>
         <hashTree>
@@ -203,8 +193,7 @@ props.get(&quot;TRACER&quot;).msg(_SRC,&quot;Sample Padder 2.1 Running&quot;)</s
           <stringProp name="cacheKey">true</stringProp>
           <stringProp name="filename"></stringProp>
           <stringProp name="parameters"></stringProp>
-          <stringProp name="script">def _SRC=&quot;Thread Group 2 Sample PADDER 2.2&quot;
-props.get(&quot;TRACER&quot;).msg(_SRC,&quot;Sample Padder 2.2 Running&quot;)</stringProp>
+          <stringProp name="script">props.get(&quot;TRACER&quot;).msg(ctx,sampler,&quot;Running&quot;)</stringProp>
           <stringProp name="scriptLanguage">groovy</stringProp>
         </JSR223Sampler>
         <hashTree>
