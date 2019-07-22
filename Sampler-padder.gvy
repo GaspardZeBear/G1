@@ -12,11 +12,20 @@ if ( counterVar == null ) {
 }
 counterVar++
 vars.put(counterName, counterVar.toString())
-def myVarName="MYVAR"+"-"+Thread.currentThread().getName()
-def myVar=vars.get(myVarName)
 def padSize= props.get("PADSIZE") as Integer
 def padding='X'.padLeft(padSize,'+')
-vars.put(myVarName,myVar + padding)
+
+def myListName="MYLIST"+"-"+Thread.currentThread().getName()
+def myList=vars.getObject(myListName)
+try {
+  myList.add(padding)
+} catch (Exception e) {
+  myList=[]
+  myList.add(padding)
+}
+OUT.println(myList.size())
+vars.putObject(myListName,myList)
+
 //sleep(1000)
 def start=SampleResult.getStartTime()
 def end = System.currentTimeMillis(); //return current time in milliseconds
