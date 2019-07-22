@@ -123,11 +123,19 @@ props.get(&quot;TRACER&quot;).msg(_SRC,&quot;Sampler1 in TG 1&quot;)</stringProp
             <stringProp name="cacheKey">false</stringProp>
             <stringProp name="filename"></stringProp>
             <stringProp name="parameters">9999</stringProp>
-            <stringProp name="script">println(&quot;TG2 OnceOnly A Preprocessor 2.1 &quot;)
-props.get(&quot;TRACER&quot;).msg(&quot;TG2 OnceOnly B Preprocessor 2.1 &quot;)
-println(&quot;TG2 OnceOnly C Preprocessor 2.1 &quot;)</stringProp>
+            <stringProp name="script">def _SRC=&quot;Thread Group 2 OnceOnlyController PreprocessorOnceOnly 2.1&quot;
+props.get(&quot;TRACER&quot;).msg(_SRC,&quot;Running&quot;)</stringProp>
             <stringProp name="scriptLanguage">groovy</stringProp>
           </JSR223PreProcessor>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Sampler 2.1" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">def _SRC=&quot;Thread Group 2 OnceOnlyController Sampler 2.1&quot;
+props.get(&quot;TRACER&quot;).msg(_SRC,&quot;Running&quot;)</stringProp>
+          </JSR223Sampler>
           <hashTree/>
         </hashTree>
         <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report 2 " enabled="true">
