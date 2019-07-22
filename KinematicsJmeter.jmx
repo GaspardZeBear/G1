@@ -30,9 +30,33 @@
           <stringProp name="filename"></stringProp>
           <stringProp name="parameters">9999</stringProp>
           <stringProp name="script">import static java.util.Calendar.*
-d=new Date()
-OUT.println(d.toString() + &quot;---------------------------------------------------------------------------------------&quot;)
-OUT.println(&quot;Preprocessor in Setup thread group&quot;)</stringProp>
+def d=new Date()
+println(d.toString() + &quot;---------------------------------------------------------------------------------------&quot;)
+println(&quot;Preprocessor in Setup thread group&quot;)
+ 
+public class T {
+     def log
+	void init(log) {
+		this.log=log
+		println(&quot;T tracer init&quot;)
+	}
+	void msg(msg) {
+		//OUT.println(&quot;Track&quot;)
+		def d = new Date()
+		def dmsg = d.toString() + &quot; &quot; + msg
+		this.log.info(dmsg)
+		println(dmsg)
+	}	
+}
+
+t=new T()
+t.init(log)
+//(new T(log)).p()
+
+props.put(&quot;TRACER&quot;,t)
+//T(log).p()
+println(d.toString() + &quot;*************************************************************&quot;)
+props.get(&quot;TRACER&quot;).msg(&quot;Checking TRACER is OK&quot;)</stringProp>
           <stringProp name="scriptLanguage">groovy</stringProp>
         </JSR223PreProcessor>
         <hashTree/>
@@ -41,7 +65,8 @@ OUT.println(&quot;Preprocessor in Setup thread group&quot;)</stringProp>
           <stringProp name="parameters"></stringProp>
           <stringProp name="filename"></stringProp>
           <stringProp name="cacheKey">true</stringProp>
-          <stringProp name="script">OUT.println(&quot;Sampler in Setup&quot;)</stringProp>
+          <stringProp name="script">msg=&quot;Sampler in Setup&quot;
+props.get(&quot;TRACER&quot;).msg(msg)</stringProp>
         </JSR223Sampler>
         <hashTree/>
       </hashTree>
@@ -49,9 +74,9 @@ OUT.println(&quot;Preprocessor in Setup thread group&quot;)</stringProp>
         <stringProp name="ThreadGroup.on_sample_error">stoptest</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <stringProp name="LoopController.loops">5</stringProp>
+          <stringProp name="LoopController.loops">3</stringProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">3</stringProp>
+        <stringProp name="ThreadGroup.num_threads">2</stringProp>
         <stringProp name="ThreadGroup.ramp_time">1</stringProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
         <stringProp name="ThreadGroup.duration"></stringProp>
@@ -62,7 +87,7 @@ OUT.println(&quot;Preprocessor in Setup thread group&quot;)</stringProp>
           <stringProp name="cacheKey">false</stringProp>
           <stringProp name="filename"></stringProp>
           <stringProp name="parameters">9999</stringProp>
-          <stringProp name="script">OUT.println(&quot;Preprocessor 1.1  in ThreadGroup 1&quot;)</stringProp>
+          <stringProp name="script">props.get(&quot;TRACER&quot;).msg(&quot;Preprocessor 1.1  in ThreadGroup 1&quot;)</stringProp>
           <stringProp name="scriptLanguage">groovy</stringProp>
         </JSR223PreProcessor>
         <hashTree/>
@@ -71,7 +96,7 @@ OUT.println(&quot;Preprocessor in Setup thread group&quot;)</stringProp>
           <stringProp name="parameters"></stringProp>
           <stringProp name="filename"></stringProp>
           <stringProp name="cacheKey">true</stringProp>
-          <stringProp name="script">OUT.println(&quot;Sampler1 in TG 1&quot;)</stringProp>
+          <stringProp name="script">props.get(&quot;TRACER&quot;).msg(&quot;Sampler1 in TG 1&quot;)</stringProp>
         </JSR223Sampler>
         <hashTree/>
       </hashTree>
@@ -79,9 +104,9 @@ OUT.println(&quot;Preprocessor in Setup thread group&quot;)</stringProp>
         <stringProp name="ThreadGroup.on_sample_error">stoptest</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <stringProp name="LoopController.loops">5</stringProp>
+          <stringProp name="LoopController.loops">3</stringProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">3</stringProp>
+        <stringProp name="ThreadGroup.num_threads">2</stringProp>
         <stringProp name="ThreadGroup.ramp_time"></stringProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
         <stringProp name="ThreadGroup.duration"></stringProp>
@@ -90,11 +115,13 @@ OUT.println(&quot;Preprocessor in Setup thread group&quot;)</stringProp>
       <hashTree>
         <OnceOnlyController guiclass="OnceOnlyControllerGui" testclass="OnceOnlyController" testname="Once Only Controller 2" enabled="true"/>
         <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="PreProcessor 2.1" enabled="true">
+          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="PreProcessorOnceOnly 2.1" enabled="true">
             <stringProp name="cacheKey">false</stringProp>
             <stringProp name="filename"></stringProp>
             <stringProp name="parameters">9999</stringProp>
-            <stringProp name="script">OUT.println(&quot;TG Preprocessor 2.1 in OnceOnly 2&quot;)</stringProp>
+            <stringProp name="script">println(&quot;TG2 OnceOnly A Preprocessor 2.1 &quot;)
+props.get(&quot;TRACER&quot;).msg(&quot;TG2 OnceOnly B Preprocessor 2.1 &quot;)
+println(&quot;TG2 OnceOnly C Preprocessor 2.1 &quot;)</stringProp>
             <stringProp name="scriptLanguage">groovy</stringProp>
           </JSR223PreProcessor>
           <hashTree/>
@@ -136,11 +163,19 @@ OUT.println(&quot;Preprocessor in Setup thread group&quot;)</stringProp>
           <stringProp name="filename"></stringProp>
         </ResultCollector>
         <hashTree/>
+        <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="PreProcessor 2.1" enabled="true">
+          <stringProp name="cacheKey">false</stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="parameters">9999</stringProp>
+          <stringProp name="script">OUT.println(&quot;TG2 Preprocessor 2.1&quot;)</stringProp>
+          <stringProp name="scriptLanguage">groovy</stringProp>
+        </JSR223PreProcessor>
+        <hashTree/>
         <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Sampler-Padder 2.1" enabled="true">
           <stringProp name="cacheKey">true</stringProp>
           <stringProp name="filename"></stringProp>
           <stringProp name="parameters"></stringProp>
-          <stringProp name="script">OUT.println(&quot;Sample Padder 2.1 Running&quot;)</stringProp>
+          <stringProp name="script">props.get(&quot;TRACER&quot;).msg(&quot;Sample Padder 2.1 Running&quot;)</stringProp>
           <stringProp name="scriptLanguage">groovy</stringProp>
         </JSR223Sampler>
         <hashTree>
@@ -154,7 +189,7 @@ OUT.println(&quot;Preprocessor in Setup thread group&quot;)</stringProp>
           <stringProp name="cacheKey">true</stringProp>
           <stringProp name="filename"></stringProp>
           <stringProp name="parameters"></stringProp>
-          <stringProp name="script">OUT.println(&quot;Sample Padder 2.2 Running&quot;)</stringProp>
+          <stringProp name="script">props.get(&quot;TRACER&quot;).msg(&quot;Sample Padder 2.2 Running&quot;)</stringProp>
           <stringProp name="scriptLanguage">groovy</stringProp>
         </JSR223Sampler>
         <hashTree>
@@ -164,14 +199,6 @@ OUT.println(&quot;Preprocessor in Setup thread group&quot;)</stringProp>
           </GaussianRandomTimer>
           <hashTree/>
         </hashTree>
-        <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="PreProcessorOnceOnly 2.1" enabled="true">
-          <stringProp name="cacheKey">false</stringProp>
-          <stringProp name="filename"></stringProp>
-          <stringProp name="parameters">9999</stringProp>
-          <stringProp name="script">OUT.println(&quot;TG Preprocessor 2.1 &quot;)</stringProp>
-          <stringProp name="scriptLanguage">groovy</stringProp>
-        </JSR223PreProcessor>
-        <hashTree/>
       </hashTree>
     </hashTree>
   </hashTree>
