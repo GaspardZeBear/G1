@@ -1,10 +1,5 @@
 import static java.util.Calendar.*
 
-def scriptName="A"
-//log.info(scriptName + " Jsr223 Sampler activating")
-def date=new Date()
-//OUT.println(date.toString()  + " " + scriptName + " Jsr223 Sampler activating " )
-
 def counterName="COUNTER"+"-"+Thread.currentThread().getName()
 def counterVar=vars.get(counterName) as Integer
 if ( counterVar == null ) {
@@ -23,7 +18,7 @@ try {
   myList=[]
   myList.add(padding)
 }
-OUT.println(myList.size())
+
 vars.putObject(myListName,myList)
 
 //sleep(1000)
@@ -31,6 +26,6 @@ def start=SampleResult.getStartTime()
 def end = System.currentTimeMillis(); //return current time in milliseconds
 def latency=end - start
 
-def out=date.toString()  + " " + Thread.currentThread().getName() + " count=" + counterVar + " latency=" + latency 
-log.info(out)
-OUT.println(out)
+msg=  "count=" + counterVar + " latency=" + latency
+props.get("TRACER").msg(ctx,sampler,msg) 
+

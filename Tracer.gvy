@@ -23,4 +23,4 @@ public class Tracer {
 
 props.put("TRACER",new Tracer(log))
 println(d.toString() + "*************************************************************")
-props.get("TRACER").msg(_SRC,"Checking TRACER is OK")
+props.get("TRACER").msg(ctx,sampler,"Checking TRACER is OK")
